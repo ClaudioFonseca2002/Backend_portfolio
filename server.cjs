@@ -10,17 +10,10 @@ const port = process.env.PORT || 3000;
 // Define los orígenes permitidos
 const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS 
 
-// Configura CORS
 app.use(cors({
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('No permitido por CORS'));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Middleware para parsing JSON
