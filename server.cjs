@@ -1,41 +1,47 @@
-require("dotenv").config(); // Cargar variables de entorno desde .env
+require('dotenv').config(); // Cargar variables de entorno desde .env
 
-//Servidor BackEnd
-const connection = require("./src/models/database.cjs");
-
-//Creo instancia express
-const express = require("express");
+const express = require('express');
+const cors = require('cors');
 const app = express();
 
-//Interpretar JSON's
+// Configura el puerto
+const port = process.env.PORT || 3000;
+
+// Define los orígenes permitidos
+const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS 
+
+// Configura CORS
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+// Middleware para parsing JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//Defino numero de puerto del servidor local
-const port = process.env.PORT;
+// Rutas
+const routes = require('./src/api/endPoints.cjs');
+app.use('/', routes);
 
-//Traigo los endPoints de la API (LA API SE CONECTA CON EL CONTROLADOR)
-const routes = require("./src/api/endPoints.cjs");
-
-//Usar cors para evitar conflictos de comunicacion
-const cors = require("cors");
-app.use(
-  cors({
-    //Ruta del FrontEnd
-    origin: ["http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Include PUT in the allowed methods
-  next();
+// Manejo de errores
+app.use((err, req, res, next) => {
+  if (err.message === 'No permitido por CORS') {
+    res.status(403).json({ message: 'Acceso denegado por CORS' });
+  } else {
+    console.error(err.stack);
+    res.status(500).send('Algo salió mal!');
+  }
 });
 
+// Inicializa el servidor
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Servidor escuchando en el puerto ${port}`);
 });
-
-console.log("Hola desde el servidor");
-
-app.use("/", routes);
