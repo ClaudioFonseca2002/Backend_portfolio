@@ -9,9 +9,9 @@ const port = process.env.PORT || 3000;
 
 // Define los orígenes permitidos
 const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS 
-
+const localOrigin = process.env.LOCAL_FRONT_END
 app.use(cors({
-  origin: allowedOrigins,
+  origin: [allowedOrigins,localOrigin],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
