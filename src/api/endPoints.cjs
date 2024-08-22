@@ -36,6 +36,11 @@ const {
   addInProcessEducation,
 } = require("../controllers/educationController.cjs");
 
+//Importo los controladores de proyecto
+const { getProyect } = require("../controllers/proyectController.cjs");
+const { addProyect } = require("../controllers/proyectController.cjs");
+const { deleteProyect } = require("../controllers/proyectController.cjs");
+
 //Creo endPoint
 router.get("/ping", ping);
 router.post("/login", login);
@@ -49,9 +54,22 @@ router.put(
 //Educación
 router.get("/getCompletedEducation", getCompletedEducation);
 router.get("/getEducationInProcess", getEducationInProcess);
-router.delete("/deleteCompletedEducation/:id_education", authenticateToken,deleteCompletedEducation);
-router.delete("/deleteEducationInProcess/:id_educacion_proceso",authenticateToken,deleteEducationInProcess);
+router.delete(
+  "/deleteCompletedEducation/:id_education",
+  authenticateToken,
+  deleteCompletedEducation
+);
+router.delete(
+  "/deleteEducationInProcess/:id_educacion_proceso",
+  authenticateToken,
+  deleteEducationInProcess
+);
 router.post("/addCompletedEducation", authenticateToken, addCompletedEducation);
 router.post("/addInProcessEducation", authenticateToken, addInProcessEducation);
+
+//Proyecto
+router.get("/getProyects", getProyect);
+router.post("/addProyect", authenticateToken, addProyect);
+router.delete("/deleteProyect/:id_proyecto", authenticateToken, deleteProyect);
 
 module.exports = router;
