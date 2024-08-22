@@ -4,8 +4,7 @@ const express = require("express");
 const router = express.Router();
 const app = express();
 //Importo autenticadorDeToken
-const authenticateToken = require('../utils/authMiddleware.cjs');
-
+const authenticateToken = require("../utils/authMiddleware.cjs");
 
 //Importo funcion "ping" del controlador
 const { ping } = require("../controllers/pingController.cjs");
@@ -17,10 +16,42 @@ const { login } = require("../controllers/loginController.cjs");
 const { getProfile } = require("../controllers/profileController.cjs");
 const { modifyDescription } = require("../controllers/profileController.cjs");
 
+//Importo controladores de educacion
+const {
+  getCompletedEducation,
+} = require("../controllers/educationController.cjs");
+const {
+  getEducationInProcess,
+} = require("../controllers/educationController.cjs");
+const {
+  deleteCompletedEducation,
+} = require("../controllers/educationController.cjs");
+const {
+  deleteEducationInProcess,
+} = require("../controllers/educationController.cjs");
+const {
+  addCompletedEducation,
+} = require("../controllers/educationController.cjs");
+const {
+  addInProcessEducation,
+} = require("../controllers/educationController.cjs");
+
 //Creo endPoint
 router.get("/ping", ping);
 router.post("/login", login);
 router.get("/profile", getProfile);
-router.put("/modifyDescription/:id_profile", authenticateToken ,modifyDescription);
+router.put(
+  "/modifyDescription/:id_profile",
+  authenticateToken,
+  modifyDescription
+);
+
+//Educación
+router.get("/getCompletedEducation", getCompletedEducation);
+router.get("/getEducationInProcess", getEducationInProcess);
+router.delete("/deleteCompletedEducation/:id_education", authenticateToken,deleteCompletedEducation);
+router.delete("/deleteEducationInProcess/:id_educacion_proceso",authenticateToken,deleteEducationInProcess);
+router.post("/addCompletedEducation", authenticateToken, addCompletedEducation);
+router.post("/addInProcessEducation", authenticateToken, addInProcessEducation);
 
 module.exports = router;
