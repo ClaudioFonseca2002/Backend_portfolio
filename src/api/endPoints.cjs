@@ -41,6 +41,11 @@ const { getProyect } = require("../controllers/proyectController.cjs");
 const { addProyect } = require("../controllers/proyectController.cjs");
 const { deleteProyect } = require("../controllers/proyectController.cjs");
 
+//Importo los controladores de tecnologia
+const { getTechnology } = require("../controllers/technologyController.cjs");
+const { addTechnology } = require("../controllers/technologyController.cjs");
+const { deleteTechnology } = require("../controllers/technologyController.cjs");
+
 //Creo endPoint
 router.get("/ping", ping);
 router.post("/login", login);
@@ -71,5 +76,10 @@ router.post("/addInProcessEducation", authenticateToken, addInProcessEducation);
 router.get("/getProyects", getProyect);
 router.post("/addProyect", authenticateToken, addProyect);
 router.delete("/deleteProyect/:id_proyecto", authenticateToken, deleteProyect);
+
+//Tecnologia
+router.get("/getTechnology", getTechnology);
+router.post("/addTechnology", authenticateToken, addTechnology);
+router.delete("/deleteTechnology/:idTechnology", authenticateToken, deleteTechnology);
 
 module.exports = router;
