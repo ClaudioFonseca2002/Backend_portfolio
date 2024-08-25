@@ -9,7 +9,7 @@ const secretKey = process.env.JWT_SECRET;
 function generateToken(user) {
   const payload = {
     user: user,
-    exp: Math.floor(Date.now() / 1000) + 60 * 30, // Expira en 30 minutos
+    exp: Math.floor(Date.now() / 1000) + 60 * 1, // Expira en 30 minutos
   };
 
   return jwt.sign(payload, secretKey);
