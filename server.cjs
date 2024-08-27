@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 
 // Configura el puerto
-const port = process.env.PORT || 3000;
+const port = process.env.PORT 
 
 // Define los orígenes permitidos
 const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS 
